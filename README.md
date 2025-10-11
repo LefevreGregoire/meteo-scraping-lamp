@@ -11,9 +11,12 @@ Application PHP qui récupère la météo via l’API OpenWeatherMap, stocke les
 
 ## Aperçu du projet
 
-- Page météo (exemple d’affichage):
+- Page météo (exemple d’affichage) :
+  
   - ![Capture du site météo](https://www.dropbox.com/scl/fi/lzotwx9ged7w2pdl9l73k/SITE-METEO-2.0.PNG?rlkey=09y3dkofdiemiqo90wrtclryd&st=p26lenho&raw=1)
-- Base de données (exemple de table):
+    
+- Base de données (exemple de table) :
+  
   - ![Table weather_data](https://www.dropbox.com/scl/fi/ttcmxitne3x15v8v2p26r/SELECT-ALL-weather_data-db.PNG?rlkey=14i79lft47hh4whnn4l3habhk&st=bsdjqe8d&raw=1)
 
 ---
@@ -78,13 +81,13 @@ sudo systemctl status mariadb
 
 ## Automatisation (cron)
 
-Exécuter le script chaque minute:
+Exécuter le script chaque minute :
 ```bash
 crontab -e
 * * * * * /usr/bin/php /var/www/html/meteo.php > /var/www/html/meteo_output.txt 2>&1
 ```
 
-Vérifier la sortie:
+Vérifier la sortie :
 ```bash
 tail -n 50 /var/www/html/meteo_output.txt
 ```
@@ -106,13 +109,13 @@ CREATE TABLE weather_data (
 
 ## Dépannage rapide
 
-- Clé API invalide:
+- Clé API invalide :
   - Vérifie config.php (owm_api_key), les unités (`metric`) et la ville.
-  - Teste l’URL brute: `curl "https://api.openweathermap.org/data/2.5/weather?q=Andernos-les-Bains&appid=TA_CLE&units=metric&lang=fr"`
-- Erreur DB (PDO): vérifier user/pass et que la DB `meteo` et la table existent.
-- Page blanche PHP: vérifier les logs Apache.
+  - Teste l’URL brute : `curl "https://api.openweathermap.org/data/2.5/weather?q=Andernos-les-Bains&appid=TA_CLE&units=metric&lang=fr"`
+- Erreur DB (PDO) : vérifier user/pass et que la DB `meteo` et la table existent.
+- Page blanche PHP : vérifier les logs Apache.
   - Debian/Ubuntu: `/var/log/apache2/error.log`
-- Pas d’images: utiliser un fichier présent dans un dépôt (ex.: `images/city.jpg`).
+- Pas d’images : utiliser un fichier présent dans un dépôt (ex.: `images/city.jpg`).
 
 ## Liens utiles
 
@@ -120,6 +123,8 @@ CREATE TABLE weather_data (
 - [Apache HTTP Server](https://httpd.apache.org/)
 - [MariaDB](https://mariadb.org/)
 - [PHP PDO](https://www.php.net/manual/fr/book.pdo.php)
+- Documentation détaillée : [MeteoScrapingLamp.md](./MeteoScrapingLamp.md)
+
 
 ## Licence
 
