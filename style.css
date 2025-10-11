@@ -1,0 +1,90 @@
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --accent: #22d3ee;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: linear-gradient(180deg, #0b1020 0%, #0f172a 100%);
+  min-height: 100vh;
+}
+
+body.sunny { background: linear-gradient(180deg, #0b1020 0%, #1e293b 60%, #f59e0b22 100%); }
+body.cloudy { background: linear-gradient(180deg, #0b1020 0%, #1e293b 100%); }
+body.rainy { background: linear-gradient(180deg, #0b1020 0%, #1e293b 60%, #3b82f622 100%); }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 24px; position: relative; z-index: 2; }
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.location { display: flex; gap: 10px; align-items: center; }
+.location h1 { margin: 0; font-size: 28px; font-weight: 600; }
+.last-update { color: var(--muted); font-size: 14px; display: flex; gap: 8px; align-items: center; }
+
+.weather-main { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 900px) { .weather-main { grid-template-columns: 1fr 1fr; } }
+
+.current-weather-card, .detail-card {
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  border-radius: 16px;
+  padding: 20px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 400ms ease;
+}
+.weather-header { display: flex; align-items: center; justify-content: space-between; }
+.main-temp { display: flex; align-items: baseline; gap: 6px; }
+.temperature { font-size: 56px; font-weight: 700; }
+.unit { font-size: 20px; color: var(--muted); }
+
+.weather-icon-container { position: relative; width: 96px; height: 96px; }
+.weather-icon { width: 100%; height: 100%; position: relative; z-index: 2; }
+.icon-bg { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.25), transparent 60%); z-index: 1; }
+
+.weather-description { margin-top: 12px; font-size: 18px; color: var(--text); }
+.feels-like { margin-top: 8px; color: var(--muted); }
+
+.weather-details { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 600px) { .weather-details { grid-template-columns: 1fr 1fr; } }
+
+.detail-card { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; }
+.detail-icon { font-size: 22px; color: var(--accent); }
+.detail-content .detail-label { color: var(--muted); font-size: 14px; }
+.detail-content .detail-value { font-weight: 600; font-size: 18px; }
+
+.detail-progress { grid-column: 1 / -1; width: 100%; background: rgba(255,255,255,0.06); height: 8px; border-radius: 6px; overflow: hidden; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #60a5fa); }
+
+.wind-indicator { grid-column: 1 / -1; height: 8px; position: relative; }
+.wind-arrow {
+  width: 0; height: 0;
+  border-left: 8px solid transparent; border-right: 8px solid transparent;
+  border-bottom: 14px solid var(--accent);
+  position: absolute; top: -4px; left: 10px;
+  transform-origin: 50% 12px;
+}
+
+.temp-gauge { grid-column: 1 / -1; height: 100px; background: rgba(255,255,255,0.06); border-radius: 8px; position: relative; overflow: hidden; }
+.gauge-fill { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(180deg, #60a5fa, #22d3ee); }
+
+.footer { margin-top: 20px; }
+.city-showcase {
+  display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: center;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px; padding: 12px;
+}
+.city-image { width: 120px; height: 80px; object-fit: cover; border-radius: 8px; }
+.city-info h3 { margin: 0; font-size: 18px; }
+.city-info p { margin: 4px 0 0; color: var(--muted); }
+
+.background-shapes { position: fixed; inset: 0; overflow: hidden; z-index: 1; pointer-events: none; }
+.shape { position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.2; }
+.shape-1 { width: 240px; height: 240px; background: #22d3ee; top: 10%; left: 10%; }
+.shape-2 { width: 320px; height: 320px; background: #60a5fa; bottom: 10%; right: 20%; }
+.shape-3 { width: 180px; height: 180px; background: #f59e0b; top: 30%; right: 10%; }

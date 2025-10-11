@@ -1,0 +1,14 @@
+<?php
+return [
+    // Base de données
+    'db_host' => 'localhost',
+    'db_name' => 'meteo',
+    'db_user' => 'root',
+    'db_pass' => 'change-me',
+
+    // OpenWeatherMap
+    'owm_api_key' => 'YOUR_OPENWEATHERMAP_API_KEY',
+    'city' => 'Andernos-les-Bains',
+    'units' => 'metric', // metric, imperial
+    'lang'  => 'fr',
+];

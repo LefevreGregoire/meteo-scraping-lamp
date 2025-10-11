@@ -1,0 +1,10 @@
+# Secrets
+config.php
+
+# Vendors (au cas où)
+vendor/
+node_modules/
+
+# Systèmes
+.DS_Store
+Thumbs.db
