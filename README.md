@@ -123,7 +123,7 @@ CREATE TABLE weather_data (
 - [Apache HTTP Server](https://httpd.apache.org/)
 - [MariaDB](https://mariadb.org/)
 - [PHP PDO](https://www.php.net/manual/fr/book.pdo.php)
-- Documentation détaillée : [MeteoScrapingLamp.md](./MeteoScrapingLamp.md)
+- Documentation détaillée : [DOCUMENTATION.md](./DOCUMENTATION.md)
 
 
 ## Licence
