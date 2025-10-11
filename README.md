@@ -1,85 +1,76 @@
-# Météo (OpenWeatherMap) sur LAMP
+# Météo Scraping LAMP (OpenWeatherMap)
 
 Application PHP qui récupère la météo via l’API OpenWeatherMap, stocke les données dans MariaDB et les affiche sur une page web responsive.
 
-- Documentation détaillée: [MeteoScrapingLamp.md](./MeteoScrapingLamp.md)
-- Dépôt: meteo-scraping-lamp (public)
+![PHP](https://img.shields.io/badge/PHP-8.2-blue?logo=php)
+![MariaDB](https://img.shields.io/badge/MariaDB-LAMP-green?logo=mariadb)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Status](https://img.shields.io/badge/status-stable-success)
 
-## Aperçu
+---
+
+## Aperçu du projet
 
 - Page météo (exemple d’affichage):
   - ![Capture du site météo](https://www.dropbox.com/scl/fi/lzotwx9ged7w2pdl9l73k/SITE-METEO-2.0.PNG?rlkey=09y3dkofdiemiqo90wrtclryd&st=p26lenho&raw=1)
 - Base de données (exemple de table):
   - ![Table weather_data](https://www.dropbox.com/scl/fi/ttcmxitne3x15v8v2p26r/SELECT-ALL-weather_data-db.PNG?rlkey=14i79lft47hh4whnn4l3habhk&st=bsdjqe8d&raw=1)
-- Page par défaut Apache (sanity check):
-  - ![Apache default page](https://www.dropbox.com/scl/fi/zlelco9vs29w0yr908q8w/APACHE-default-page.webp?rlkey=msa7jaxlc3vzho4gd4k5wvkzo&st=6vsxnsqu&raw=1)
 
-Astuce: si une image ne s’affiche pas, ouvre le lien brut. Tu peux aussi copier ces images dans un dossier docs/screenshots du dépôt.
+---
 
-## Fonctionnalités
+## Contenu du projet
 
-- Récupération météo en temps réel via OpenWeatherMap
-- Stockage dans MariaDB avec historique
-- Affichage web dynamique (PHP + CSS)
-- Automatisation via cron
-- Architecture multi-VM possible (routeur, LAMP, DHCP/DNS, client)
+| Fichier | Description |
+|----------|--------------|
+| `meteo.php` | Script principal : récupère les données météo via API et les insère/affiche depuis MariaDB |
+| `style.css` | Styles et mise en page de la page météo |
+| `meteo.sql` | Script SQL de création de la base et de la table |
+| `config.php.sample` | Exemple de fichier de configuration (à copier en `config.php`) |
+| `Projet_CCF.md` | Documentation technique complète du projet (déploiement, code, infrastructure) |
+
+---
 
 ## Prérequis
 
-- Debian/Ubuntu avec apt
-- Apache2, PHP, MariaDB
-- Clé API OpenWeatherMap (gratuite): [OpenWeatherMap API](https://openweathermap.org/api)
+- **Système :** Debian / Ubuntu  
+- **Serveur web :** Apache2  
+- **Langages :** PHP 8+  
+- **Base de données :** MariaDB  
+- **Clé API :** [OpenWeatherMap](https://openweathermap.org/api)
 
-Installation des paquets:
+### Installation des paquets
+
 ```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y apache2 mariadb-server php php-mysql libapache2-mod-php
-```
+sudo apt update
+sudo apt install apache2 mariadb-server php php-mysql libapache2-mod-php
+``` 
 
-## Base de données
+## Installation
 
-Créer la base et la table:
-```sql
-CREATE DATABASE IF NOT EXISTS meteo CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE meteo;
+**Créer la base et la table**
 
-CREATE TABLE IF NOT EXISTS weather_data (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  temperature DECIMAL(5,2),
-  feels_like DECIMAL(5,2),
-  humidity INT,
-  wind_speed DECIMAL(5,2),
-  description VARCHAR(255),
-  icon VARCHAR(50),
-  date_recorded TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-Ou via fichier:
 ```bash
 sudo mysql -u root -p < meteo.sql
 ```
+**Configurer l’accès et l’API**
 
-## Configuration de l’application
-
-- Ne jamais committer ta clé API ni tes mots de passe.
-- Copie config.php.sample en config.php (config.php est ignoré par git):
 ```bash
 cp config.php.sample config.php
-nano config.php  # renseigne db_user, db_pass, owm_api_key, city, ...
+nano config.php  # renseigner db_user, db_pass et owm_api_key
 ```
 
-## Déploiement (Apache)
+**Déployer dans Apache**
 
-1) Copier les fichiers web sur le serveur Apache:
 ```bash
-sudo cp meteo.php style.css config.php /var/www/html/
+sudo cp meteo.php style.css /var/www/html/
+sudo cp config.php /var/www/html/
 ```
+**Tester localement**
 
-2) Tester dans le navigateur:
-- http://IP_DU_SERVEUR/meteo.php
+Via : http://localhost/meteo.php
 
-3) Vérifier Apache/MariaDB:
+**Vérifier Apache/MariaDB**
+
 ```bash
 sudo systemctl status apache2
 sudo systemctl status mariadb
@@ -98,16 +89,19 @@ Vérifier la sortie:
 tail -n 50 /var/www/html/meteo_output.txt
 ```
 
-## Développement local et Git
+## Exemple de table SQL
 
-Initialiser et pousser vers GitHub:
-```bash
-git init
-git add .
-git commit -m "Initial commit: meteo-scraping-lamp"
-git branch -M main
-git remote add origin git@github.com:LefevreGregoire/meteo-scraping-lamp.git
-git push -u origin main
+```sql
+CREATE TABLE weather_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    temperature DECIMAL(5,2),
+    feels_like DECIMAL(5,2),
+    humidity INT,
+    wind_speed DECIMAL(5,2),
+    description VARCHAR(255),
+    icon VARCHAR(50),
+    date_recorded TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
 
 ## Dépannage rapide
@@ -118,7 +112,7 @@ git push -u origin main
 - Erreur DB (PDO): vérifier user/pass et que la DB `meteo` et la table existent.
 - Page blanche PHP: vérifier les logs Apache.
   - Debian/Ubuntu: `/var/log/apache2/error.log`
-- Pas d’images: utilise un fichier présent dans ton dépôt (ex.: `images/city.jpg`).
+- Pas d’images: utiliser un fichier présent dans un dépôt (ex.: `images/city.jpg`).
 
 ## Liens utiles
 
@@ -129,4 +123,4 @@ git push -u origin main
 
 ## Licence
 
-MIT (optionnel)
+MIT
