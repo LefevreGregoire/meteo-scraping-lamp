@@ -4,7 +4,7 @@ Application PHP qui récupère la météo via l’API OpenWeatherMap, stocke les
 
 ![PHP](https://img.shields.io/badge/PHP-8.2-blue?logo=php)
 ![MariaDB](https://img.shields.io/badge/MariaDB-LAMP-green?logo=mariadb)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)(./LICENSE)
 ![Status](https://img.shields.io/badge/status-stable-success)
 
 ---
